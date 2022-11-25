@@ -1,4 +1,4 @@
-.login {
+.register {
     height: 100vh;
     background-color: rgb(193, 190, 255);
     display: flex;
@@ -8,6 +8,7 @@
 .card {
     width: 50%;
     display: flex;
+    flex-direction: row-reverse;
     background-color: white;
     border-radius: 10px;
     min-height: 600px;
@@ -16,7 +17,7 @@
 .left {
     flex: 1;
     background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
-    url("https://i.pinimg.com/originals/d4/26/75/d4267548b1da35ac4570942145364ff8.jpg") center;
+    url("https://i.pinimg.com/originals/1c/7a/7f/1c7a7f56e2858e47bfd51d6069089ae8.jpg") center;
     background-size: cover;
     padding: 50px;
     display: flex;
@@ -46,7 +47,6 @@ button {
     cursor: pointer;
 }
 
-
 .right {
     flex: 1;
     padding: 50px;
@@ -64,7 +64,6 @@ form {
     flex-direction: column;
     gap: 30px;
 }
-
 input {
     border: none;
     border-bottom: 1px solid lightgray;
