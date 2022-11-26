@@ -19,7 +19,7 @@ const Register = () => {
         e.preventDefault();
 
         try {
-            await axios.post("http://localhost:3000/server/auth/register", inputs);
+            await axios.post("http://localhost:8000/server/auth/register", inputs);
         } catch (err) {
             setErr(err.response.data);
         }
@@ -31,7 +31,7 @@ const Register = () => {
         <div className="register">
             <div className="card">
                 <div className="left">
-                    <h1>Task 4.</h1>
+                    <h1>Task 4</h1>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero cum,
                         alias totam numquam ipsa exercitationem dignissimos, error nam,
