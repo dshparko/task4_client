@@ -11,29 +11,11 @@ import {
 import {useContext} from "react";
 import {AuthContext} from "./context/authContext";
 function App() {
-    const { currentUser } = useContext(AuthContext);
-    const ProtectedRoute = ({ children }) => {
-        if (!currentUser) {
-            return <Navigate to="/login" />;
-        }
-
-        return children;
-    };
 
     const router = createBrowserRouter([
         {
             path: "/",
-            element: (
-                <ProtectedRoute>
-                    <Login />
-                </ProtectedRoute>
-            ),
-            children: [
-                {
-                    path: "/",
-                    element: <Home />,
-                }
-            ],
+            element:  <Home />,
         },
         {
             path: "/login",
@@ -46,9 +28,11 @@ function App() {
     ]);
 
     return (
-        <div>
+        <AuthContext.Provider >
+            <Header/>
             <RouterProvider router={router} />
-        </div>
+
+            </AuthContext.Provider>
     );
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import "./home.css";
 import TableCell from "../table/TableCell";
+import axios from "axios";
 
 function Home(props) {
     const {
@@ -9,65 +10,37 @@ function Home(props) {
         onBlockUserClick,
         onDeleteUserClick,
     } = props;
+    axios.get('http://localhost:8000/server/users/data', {
+        params: {
+            ID: 1
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center">
-            <p className="fs-1 text-center fw-bold text-bg-dark main-title">
-                User table
-            </p>
-            <div
-                className="btn-group main-buttons"
-                role="group"
-                aria-label="Basic mixed styles example"
-            >
-                <button
-                    type="button"
-                    className="btn btn-outline-success fw-bold"
-                    onClick={() => {
-                        onUnblockUserClick();
-                    }}
-                >
-                    <i className="bi-unlock-fill"/>
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-outline-success fw-bold"
-                    onClick={() => {
-                        onBlockUserClick();
-                    }}
-                >
-                    <i className="bi-lock-fill"/>
-                </button>
-
-                <button
-                    type="button"
-                    className="btn btn-outline-success fw-bold"
-                    onClick={() => {
-                        onDeleteUserClick();
-                    }}
-                >
-                    <i className="bi-trash3-fill"/>
-                </button>
+        <main className='container'>
+            <br />
+            <div className="btn-toolbar" role="toolbar">
+                <div className="btn-group me-2" role="group">
+                    <button type="button" className="btn btn-danger">Block</button>
+                </div>
+                <div className="btn-group me-2" role="group">
+                    <button type="button" className="btn btn-success">Unblock</button>
+                </div>
+                <div className="btn-group" role="group">
+                    <button type="button" className="btn btn-dark">Delete</button>
+                </div>
             </div>
-            <table className="table table-hover table-light main-table">
-                <thead className="table-primary">
+            <br />
+            <table class="table table-bordered">
+                <thead>
                 <tr>
-                    <th scope="col">
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            value={isCheckedAll || ""}
-                            id="flexCheckIndeterminate"
-                            checked={isCheckedAll}
-
-                        />
-                        <label
-                            className="form-check-label"
-                            htmlFor="flexCheckIndeterminate"
-                        >
-                            Highlight/Cancel all
-                        </label>
-                    </th>
+                    <th scope="col"><input type='checkbox' /></th>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
@@ -77,11 +50,19 @@ function Home(props) {
                 </tr>
                 </thead>
                 <tbody>
-
+                {/* ARRAY OF USERS */}
+                <tr>
+                    <td><input type='checkbox' /></td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                </tr>
                 </tbody>
             </table>
-        </div>
-    );
+        </main>);
 }
 
 export default Home;
