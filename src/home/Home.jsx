@@ -1,26 +1,20 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./home.css";
 import TableCell from "../table/TableCell";
 import axios from "axios";
 
-function Home(props) {
-    const {
-        isCheckedAll,
-        onUnblockUserClick,
-        onBlockUserClick,
-        onDeleteUserClick,
-    } = props;
-    axios.get('http://localhost:8000/server/users/data', {
-        params: {
-            ID: 1
-        }
-    })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+function Home() {
+    const [users, setUser] = useState([]);
+
+    useEffect(() => {
+        getUsers();
+    }, []);
+
+    const getUsers = async () => {
+        const response = await axios.get("http://localhost:8000/server/users/data");
+        setUser(response.data);
+    };
+
 
     return (
         <main className='container'>
@@ -37,7 +31,7 @@ function Home(props) {
                 </div>
             </div>
             <br />
-            <table class="table table-bordered">
+            <table className="table table-bordered">
                 <thead>
                 <tr>
                     <th scope="col"><input type='checkbox' /></th>
@@ -51,15 +45,18 @@ function Home(props) {
                 </thead>
                 <tbody>
                 {/* ARRAY OF USERS */}
-                <tr>
-                    <td><input type='checkbox' /></td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                </tr>
+                {users.map((user, index) => (
+                    <tr key={user.id}>
+                        <td ><input type='checkbox' /></td>
+                        <td>{user.id}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{user.createTime}</td>
+                        <td>{user.lastLoginTime}</td>
+                        <td>{user.status}</td>
+
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </main>);

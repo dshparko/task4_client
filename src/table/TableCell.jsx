@@ -21,7 +21,10 @@ function TableCell(props) {
                 <input
                     className="form-check-input"
                     type="checkbox"
+                    value={isChecked || ""}
                     id="flexCheckIndeterminate"
+                    checked={isChecked}
+                    onChange={() => onChange(_id, !isChecked)}
                 />
             </td>
             <td>{_id}</td>

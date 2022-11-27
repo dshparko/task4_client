@@ -28,11 +28,12 @@ function App() {
     ]);
 
     return (
-        <AuthContext.Provider >
+     /*   <AuthContext.Provider >*/
+        <div>
             <Header/>
             <RouterProvider router={router} />
-
-            </AuthContext.Provider>
+</div>
+            /*</AuthContext.Provider>*/
     );
 }
 
