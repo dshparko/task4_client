@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import "./home.css";
-import TableCell from "../table/TableCell";
 import axios from "axios";
 
 function Home() {
@@ -8,17 +7,32 @@ function Home() {
 
     useEffect(() => {
         getUsers();
+        deleteUser();
+
+        blockUser();
+        unblockUser();
     }, []);
 
+    const [checked, setChecked] = useState(true);
     const getUsers = async () => {
         const response = await axios.get("http://localhost:8000/server/users/data");
         setUser(response.data);
     };
 
+    const deleteUser = async (id) => {
+        await axios.delete(`http://localhost:8000/server/users/delete/${id}`);
+    };
+
+    const blockUser = async (id) => {
+        await axios.patch(`http://localhost:8000/server/users/block/${id}`);
+    };
+    const unblockUser = async (id) => {
+        await axios.patch(`http://localhost:8000/server/users/unblock/${id}`);
+    };
 
     return (
         <main className='container'>
-            <br />
+            <br/>
             <div className="btn-toolbar" role="toolbar">
                 <div className="btn-group me-2" role="group">
                     <button type="button" className="btn btn-danger">Block</button>
@@ -27,14 +41,14 @@ function Home() {
                     <button type="button" className="btn btn-success">Unblock</button>
                 </div>
                 <div className="btn-group" role="group">
-                    <button type="button" className="btn btn-dark">Delete</button>
+                    <button type="button" className="btn btn-dark" onClick={deleteUser(1)}>Delete</button>
                 </div>
             </div>
-            <br />
+            <br/>
             <table className="table table-bordered">
                 <thead>
                 <tr>
-                    <th scope="col"><input type='checkbox' /></th>
+                    <th scope="col"><input type='checkbox'/></th>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
@@ -47,7 +61,7 @@ function Home() {
                 {/* ARRAY OF USERS */}
                 {users.map((user, index) => (
                     <tr key={user.id}>
-                        <td ><input type='checkbox' /></td>
+                        <td><input type='checkbox'checked={checked}/></td>
                         <td>{user.id}</td>
                         <td>{user.username}</td>
                         <td>{user.email}</td>
