@@ -1,0 +1,14 @@
+header{
+    background: #f0eff6;
+    display: flex;
+    justify-content: space-between;
+}
+h1{
+    text-align: center;
+}
+
+button{
+    width:100px;
+    height: 50%;
+    margin:20px 60px 20px 0;
+}

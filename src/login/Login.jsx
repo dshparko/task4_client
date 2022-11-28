@@ -31,34 +31,38 @@ const Login = () => {
         <div className="login">
             <div className="card">
                 <div className="left">
-                    <h1>Hello World.</h1>
+                    <h2>Task 4 itransition.</h2>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero cum,
-                        alias totam numquam ipsa exercitationem dignissimos, error nam,
-                        consequatur.
+                        Web application with registration and authentication.
+                        Non-authenticated users should not have access to the user management (admin panel).
+                        Authenticated users should have access the user management table: id, name, e-mail, last login time, registration time, status (active/blocked).
+                        If user account is blocked or deleted any next user’s request should redirect to the login page.
+                        Blocked user should not be able to login, deleted user can re-register.
                     </p>
                     <span>Don't you have an account?</span>
                     <Link to="/register">
-                        <button>Register</button>
+                        <button className="btn btn-primary">Register</button>
                     </Link>
                 </div>
                 <div className="right">
-                    <h1>Login</h1>
+                    <h2 className="d-block mx-auto">Login</h2>
                     <form>
                         <input
+                            className="form-control"
                             type="text"
                             placeholder="Email"
                             name="email"
                             onChange={handleChange}
                         />
                         <input
+                            className="form-control"
                             type="password"
                             placeholder="Password"
                             name="password"
                             onChange={handleChange}
                         />
                         {err && err}
-                        <button onClick={handleLogin}>Login</button>
+                        <button className="btn btn-primary d-block mx-auto " onClick={handleLogin}>Login</button>
                     </form>
                 </div>
             </div>

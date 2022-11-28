@@ -3,18 +3,15 @@ import "./tableCell.css";
 function TableCell(props) {
     const {
         _id,
-        name,
+        username,
         email,
-        registrationDate,
-        lastLoginDate,
+        createTime,
+        lastLoginTime,
         status,
         isChecked,
     } = props.values;
 
     const { onChange } = props;
-    const registrDate = new Date(registrationDate).toLocaleString();
-    const loginDate = new Date(lastLoginDate).toLocaleString();
-
     return (
         <tr>
             <td>
@@ -28,10 +25,10 @@ function TableCell(props) {
                 />
             </td>
             <td>{_id}</td>
-            <td>{name}</td>
+            <td>{username}</td>
             <td>{email}</td>
-            <td>{registrDate}</td>
-            <td>{loginDate}</td>
+            <td>{createTime}</td>
+            <td>{lastLoginTime}</td>
             <td>{status}</td>
         </tr>
     );

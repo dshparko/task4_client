@@ -4,36 +4,25 @@ import Register from "./register/Register";
 import Header from "./header/Header";
 import Home from "./home/Home";
 import {
-    createBrowserRouter,
-    RouterProvider,
-    Navigate,
+    BrowserRouter as Router,
+    Routes,
+    Route
 } from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "./context/authContext";
 function App() {
 
-    const router = createBrowserRouter([
-        {
-            path: "/",
-            element:  <Home />,
-        },
-        {
-            path: "/login",
-            element: <Login />,
-        },
-        {
-            path: "/register",
-            element: <Register />,
-        },
-    ]);
 
     return (
-     /*   <AuthContext.Provider >*/
-        <div>
+        <Router>
             <Header/>
-            <RouterProvider router={router} />
-</div>
-            /*</AuthContext.Provider>*/
+        <Routes>
+            <Route path="/" element={<Home/>}/>
+
+            <Route path="/login" element={<Login/>}/>
+            < Route path="/register" element={<Login/>}/>
+        </Routes>
+            </Router>
     );
 }
 
