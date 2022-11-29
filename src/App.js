@@ -8,21 +8,45 @@ import {
     Routes,
     Route
 } from "react-router-dom";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "./context/authContext";
+import axios from "axios";
+import useAuthContext from "./useAuthContext";
+
 function App() {
+    const {setUser, authUnsuccessful, authDone} = useAuthContext()
 
+    useEffect(() => {
+        handleAuth()
+    }, [])
 
+    const handleAuth = async () => {
+        try {
+            const res = await axios.get(`http://localhost:8000/server/auth/check`)
+            setUser({
+                authDone: false,
+                user: undefined
+            })
+        } catch (error) {
+            authUnsuccessful()
+            console.error(error)
+        }
+    }
     return (
         <Router>
             <Header/>
-        <Routes>
-            <Route path="/" element={<Home/>}/>
+            <Routes>
 
-            <Route path="/login" element={<Login/>}/>
-            < Route path="/register" element={<Login/>}/>
-        </Routes>
-            </Router>
+
+                    <Route path="/login" element={<Login/>}/>
+                    < Route path="/register" element={<Register/>}/>
+
+
+                        <Route path="/" element={<Home/>}/>
+
+
+            </Routes>
+        </Router>
     );
 }
 

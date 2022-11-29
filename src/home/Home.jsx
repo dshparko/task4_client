@@ -7,6 +7,8 @@ function Home() {
     const [allCheckboxes, setAllCheckboxes] = useState(false);
     const [users, setUser] = useState([]);
 
+
+
     useEffect(() => {
         getUsers();
         deleteUser();
@@ -14,20 +16,16 @@ function Home() {
         unblockUser();
     }, []);
 
-    const getUsers = async () => {
-        const response = await axios.get("http://localhost:8000/server/users/data");
-        setUser(response.data);
-    };
-    const deleteUser = async (id) => {
-        await axios.delete(`http://localhost:8000/server/users/delete/${id}`);
-    };
-
-    const blockUser = async (id) => {
-        await axios.patch(`http://localhost:8000/server/users/block/${id}`);
-    };
-    const unblockUser = async (id) => {
-        await axios.patch(`http://localhost:8000/server/users/unblock/${id}`);
-    };
+    useEffect((id) => {
+        setAllCheckboxes(
+            users.map(user => {
+                return {
+                    id: user.id,
+                    select: false,
+                };
+            })
+        );
+    }, []);
 
     const [checkboxes, setCheckboxes] = useState([]);
     const changeCheckboxes = (id) => {
@@ -37,50 +35,44 @@ function Home() {
                 : [...checkboxes, id]
         );
     };
+    const getUsers = async () => {
+        const response = await axios.get("http://localhost:8000/server/users/data");
+        setUser(response.data);
+    };
+    const deleteUser =  async (id) => {
+        await axios.delete(`http://localhost:8000/server/users/delete/${id}`);
+      //
+        window.location.reload();
+    };
 
-    const handleDeleteButton = () => {
-        checkboxes.map((id) => deleteUser(id));
-        setAllCheckboxes(false);
+    const blockUser = async(id) => {
+     await axios.patch(`http://localhost:8000/server/users/block/${id}`);
 
-        setCheckboxes([]);
-    }
+        window.location.reload();
+    };
+    const unblockUser = async (id) => {
+     await  axios.patch(`http://localhost:8000/server/users/unblock/${id}`);
 
-    const handleBlockButton = () => {
-        checkboxes.map((id) => blockUser(id));
-        setAllCheckboxes(false);
+        window.location.reload();
+    };
 
-        setCheckboxes([]);
-    }
 
-    const handleUnblockButton = () => {
-        checkboxes.map((id) => unblockUser(id));
-        setAllCheckboxes(false);
 
-        setCheckboxes([]);
-    }
 
-    useEffect(() => {
-        setUser(
-            users.map(d => {
-                return {
-                    select: false,
-                };
-            })
-        );
-    }, []);
+
 
     return (
         <main className='container'>
             <br/>
             <div className="btn-toolbar" role="toolbar">
-                <div className="btn-group me-2" role="group">
-                    <button type="button" className="btn btn-danger" onClick={handleBlockButton}>Block</button>
+                <div className="btn-group me-2" >
+                    <button type="button" className="btn btn-danger" onClick={() => deleteUser(13)}>Block</button>
                 </div>
-                <div className="btn-group me-2" role="group">
-                    <button type="button" className="btn btn-success" onClick={handleUnblockButton}>Unblock</button>
+                <div className="btn-group me-2">
+                    <button type="button" className="btn btn-success" onClick={() => deleteUser(13)}>Unblock</button>
                 </div>
-                <div className="btn-group" role="group">
-                    <button type="button" className="btn btn-dark" onClick={handleDeleteButton}>Delete</button>
+                <div className="btn-group">
+                    <button  onClick={() => deleteUser(14)}>Delete</button>
                 </div>
             </div>
             <br/>
@@ -109,7 +101,6 @@ function Home() {
                 </tr>
                 </thead>
                 <tbody>
-                {/* ARRAY OF USERS */}
                 {users.map((user, index) => (
 
                     <tr key={user.id}>
@@ -119,6 +110,7 @@ function Home() {
                                 setUser(
                                     users.map(data => {
                                         if (user.id === data.id) {
+                                            changeCheckboxes(user.id);
                                             data.select = checked;
                                         }
                                         return data;
@@ -127,7 +119,6 @@ function Home() {
                             }}
                                       type="checkbox"
                                       checked={user.select}
-
                             /></td>
                         <td>{index + 1}</td>
                         <td>{user.username}</td>
