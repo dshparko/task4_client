@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react";
 import "./home.css";
 import axios from "axios";
+import CustomerRow from "../row/CustumerRow";
 
 
 function Home() {
-    const [users, setUser] = useState([]);
+    const [users, setUsers] = useState([]);
+
+    const [user, setUser] = useState([]);
 
 
     useEffect(() => {
@@ -24,21 +27,43 @@ function Home() {
     };
     const getUsers = async () => {
         const response = await axios.get("http://localhost:8000/server/users/data");
-        setUser(response.data);
+        setUsers(response.data);
     };
     const deleteUser = (id) => {
-        axios.delete(`http://localhost:8000/server/users/delete/${id}`);
-        window.location.reload(true)
+        let arrayids = [];
+        users.forEach(d => {
+            if (d.select) {
+                arrayids.push(d.id);
+            }
+        });
+
+            axios.delete(`http://localhost:8000/server/users/delete/${arrayids}`);
+
+            window.location.reload(true)
+
+
     }
 
     function blockUser(id) {
-        axios.patch(`http://localhost:8000/server/users/block/${id}`);
+        let arrayids = [];
+        users.forEach(d => {
+            if (d.select) {
+                arrayids.push(d.id);
+            }
+        });
+        axios.patch(`http://localhost:8000/server/users/block/${arrayids}`);
         window.location.reload(true)
     }
 
 
     function unblockUser(id) {
-        axios.patch(`http://localhost:8000/server/users/unblock/${id}`);
+        let arrayids = [];
+        users.forEach(d => {
+            if (d.select) {
+                arrayids.push(d.id);
+            }
+        });
+        axios.patch(`http://localhost:8000/server/users/unblock/${arrayids}`);
         window.location.reload(true)
     }
 
@@ -83,34 +108,11 @@ function Home() {
                 </tr>
                 </thead>
                 <tbody>
-                {users.map((user, index) => (
-
-                    <tr key={user.id}>
-                        <td>
-                            <input onChange={event => {
-                                let checked = event.target.checked;
-                                setUser(
-                                    users.map(data => {
-                                        if (user.id === data.id) {
-                                            changeCheckboxes(user.id);
-                                            data.select = checked;
-                                        }
-                                        return data;
-                                    })
-                                );
-                            }}
-                                   type="checkbox"
-                                   checked={user.select}
-                            /></td>
-                        <td>{index + 1}</td>
-                        <td>{user.username}</td>
-                        <td>{user.email}</td>
-                        <td>{user.createTime}</td>
-                        <td>{user.lastLoginTime}</td>
-                        <td>{user.status}</td>
-
-                    </tr>
-                ))}
+                <></>
+                <CustomerRow
+                    stateCustomer={users}
+                    setCustomerState={setUsers}
+                />
                 </tbody>
             </table>
         </main>);
