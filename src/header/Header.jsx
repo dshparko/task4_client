@@ -8,9 +8,9 @@ function Header() {
 
     const [err, setErr] = useState(null);
 
-    const handleClick =async (e) => {
+    const handleClick = (e) => {
         try {
-            await axios.post("http://localhost:8000/server/auth/logout");
+            axios.post("http://localhost:8000/server/auth/logout");
             navigate('/login');
         } catch (err) {
             setErr(err.response.data);

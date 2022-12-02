@@ -4,28 +4,15 @@ import axios from "axios";
 
 
 function Home() {
-    const [allCheckboxes, setAllCheckboxes] = useState(false);
     const [users, setUser] = useState([]);
 
 
-
     useEffect(() => {
+
         getUsers();
-        deleteUser();
-        blockUser();
-        unblockUser();
+
     }, []);
 
-    useEffect((id) => {
-        setAllCheckboxes(
-            users.map(user => {
-                return {
-                    id: user.id,
-                    select: false,
-                };
-            })
-        );
-    }, []);
 
     const [checkboxes, setCheckboxes] = useState([]);
     const changeCheckboxes = (id) => {
@@ -39,40 +26,35 @@ function Home() {
         const response = await axios.get("http://localhost:8000/server/users/data");
         setUser(response.data);
     };
-    const deleteUser =  async (id) => {
-        await axios.delete(`http://localhost:8000/server/users/delete/${id}`);
-      //
-        window.location.reload();
-    };
+    const deleteUser = (id) => {
+        axios.delete(`http://localhost:8000/server/users/delete/${id}`);
+        window.location.reload(true)
+    }
 
-    const blockUser = async(id) => {
-     await axios.patch(`http://localhost:8000/server/users/block/${id}`);
-
-        window.location.reload();
-    };
-    const unblockUser = async (id) => {
-     await  axios.patch(`http://localhost:8000/server/users/unblock/${id}`);
-
-        window.location.reload();
-    };
+    function blockUser(id) {
+        axios.patch(`http://localhost:8000/server/users/block/${id}`);
+        window.location.reload(true)
+    }
 
 
-
-
+    function unblockUser(id) {
+        axios.patch(`http://localhost:8000/server/users/unblock/${id}`);
+        window.location.reload(true)
+    }
 
 
     return (
         <main className='container'>
             <br/>
             <div className="btn-toolbar" role="toolbar">
-                <div className="btn-group me-2" >
-                    <button type="button" className="btn btn-danger" onClick={() => deleteUser(13)}>Block</button>
+                <div className="btn-group me-2">
+                    <button type="button" className="btn btn-danger" onClick={() => blockUser(13)}>Block</button>
                 </div>
                 <div className="btn-group me-2">
-                    <button type="button" className="btn btn-success" onClick={() => deleteUser(13)}>Unblock</button>
+                    <button type="button" className="btn btn-success" onClick={() => unblockUser(13)}>Unblock</button>
                 </div>
                 <div className="btn-group">
-                    <button  onClick={() => deleteUser(14)}>Delete</button>
+                    <button onClick={() => deleteUser(14)}>Delete</button>
                 </div>
             </div>
             <br/>
@@ -105,7 +87,7 @@ function Home() {
 
                     <tr key={user.id}>
                         <td>
-                            <input    onChange={event => {
+                            <input onChange={event => {
                                 let checked = event.target.checked;
                                 setUser(
                                     users.map(data => {
@@ -117,8 +99,8 @@ function Home() {
                                     })
                                 );
                             }}
-                                      type="checkbox"
-                                      checked={user.select}
+                                   type="checkbox"
+                                   checked={user.select}
                             /></td>
                         <td>{index + 1}</td>
                         <td>{user.username}</td>
